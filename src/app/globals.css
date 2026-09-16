@@ -1,0 +1,89 @@
+@import "tailwindcss";
+
+/*
+ * KLYK is a dark-only page on purpose: the product is a backlit object on a desk,
+ * and a light theme would mean a second set of 3D materials for no one's benefit.
+ */
+@theme {
+  --color-bg: #0b0d0e;
+  --color-surface: #121517;
+  --color-surface-2: #191d20;
+  --color-line: #272c30;
+  --color-fg: #eef1f2;
+  --color-muted: #99a2a8;
+  --color-lime: #c8f542;
+  --color-lime-dim: #8fae35;
+
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-space-grotesk), var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-plex-mono), ui-monospace, "SFMono-Regular", Menlo, monospace;
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+
+  --animate-rise: rise 0.9s var(--ease-out-expo) both;
+
+  @keyframes rise {
+    from {
+      opacity: 0;
+      translate: 0 1.25rem;
+    }
+    to {
+      opacity: 1;
+      translate: none;
+    }
+  }
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    color-scheme: dark;
+  }
+
+  body {
+    background-color: var(--color-bg);
+    color: var(--color-fg);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  ::selection {
+    background-color: var(--color-lime);
+    color: #10140a;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-lime);
+    outline-offset: 3px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+@utility blueprint-grid {
+  /* Engineering-drawing grid behind the page; the 3D canvas sits on top of it. */
+  background-image:
+    linear-gradient(to right, color-mix(in oklab, var(--color-line) 55%, transparent) 1px, transparent 1px),
+    linear-gradient(to bottom, color-mix(in oklab, var(--color-line) 55%, transparent) 1px, transparent 1px);
+  background-size: 96px 96px;
+}
+
+@utility spec-label {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
